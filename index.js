@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const sessions = require('express-session')
@@ -5,10 +6,6 @@ const app = express()
 const cors = require('cors');
 const pool = require('./config/DBConn')
 const port = 3001
-
-const role_model = require('./role_model');
-const login_model = require('./login_model');
-const register = require('./register');
 
 const whitelist = ['127.0.0.1:3000', 'http://localhost:3000', 'http://localhost:3001'];
 const corsOptions = {
@@ -105,22 +102,6 @@ app.get('/products/:id', async (req, res) => {
     res.json(error)
   }
 })
-
-
-
-
-
-// a variable to save a session
-// app.post('/register',(req,res) => {
-//   register.handleNewUser(req)
-//   .then(response => {
-//     res.status(200).send(response);
-//     console.log(response.JSON());
-//   })
-//   .catch(error => {
-//     res.status(500).send(error);
-//   })
-// })
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
