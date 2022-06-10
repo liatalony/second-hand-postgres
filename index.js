@@ -36,6 +36,8 @@ app.use('/users/refresh', require('./routes/refresh'));
 //USER LOGOUT
 app.use('/users/logout', require('./routes/logout'));
 
+app.use('/products', require('./routes/api/products'));
+
 //All routes past this line will require a token check
 app.use(verifyJWT);
 
@@ -52,55 +54,44 @@ app.get('/users/get-all', allowedRole(ROLES_LIST.Admin), async (req, res) => {
 })
 
 //GET ALL PRODUCTS
-app.get('/products', async (req, res) => {
-  try {
-    const allProducts = await pool.query('SELECT * FROM product')
-    res.status(200).json(allProducts.rows)
-  } catch (error) {
-    res.json(error)
-  }
-})
+// app.get('/products', async (req, res) => {
+//   try {
+//     const allProducts = await pool.query('SELECT * FROM product')
+//     res.status(200).json(allProducts.rows)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 
 //GET PRODUCT BY ID
-app.get('/products/:id', async (req, res) => {
-  const productId = '3'
-  try {
-    const allProducts = await pool.query('SELECT * FROM product WHERE product_id=$1 LIMIT 1', [productId])
-    if (allProducts.rows.length == 0) {
-      res.status(404).json({'message': 'Something went wrong. no such product'})
-    }
-    res.status(200).json(allProducts.rows)
-  } catch (error) {
-    res.json(error)
-  }
-})
+// app.get('/products/:id', async (req, res) => {
+//   const productId = '3'
+//   try {
+//     const allProducts = await pool.query('SELECT * FROM product WHERE product_id=$1 LIMIT 1', [productId])
+//     if (allProducts.rows.length == 0) {
+//       res.status(404).json({'message': 'Something went wrong. no such product'})
+//     }
+//     res.status(200).json(allProducts.rows)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 
 //EDIT PRDUCT
-app.put('/products/edit/:id', async (req, res) => {
-  const productId = '3'
-  try {
-    const allProducts = await pool.query('UDATE product SET ', [productId])
-    if (allProducts.rows.length == 0) {
-      res.status(404).json({'message': 'Something went wrong. no such product'})
-    }
-    res.status(200).json(allProducts.rows)
-  } catch (error) {
-    res.json(error)
-  }
-})
+// app.put('/products/edit/:id', async (req, res) => {
+//   const productId = '3'
+//   try {
+//     const allProducts = await pool.query('UDATE product SET ', [productId])
+//     if (allProducts.rows.length == 0) {
+//       res.status(404).json({'message': 'Something went wrong. no such product'})
+//     }
+//     res.status(200).json(allProducts.rows)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 
-app.post('/products/add/:id', async (req, res) => {
-  const productId = '3'
-  try {
-    const allProducts = await pool.query('INSERT INTO product () VALUES () ', [productId])
-    if (allProducts.rows.length == 0) {
-      res.status(404).json({'message': 'Something went wrong. no such product'})
-    }
-    res.status(200).json(allProducts.rows)
-  } catch (error) {
-    res.json(error)
-  }
-})
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
