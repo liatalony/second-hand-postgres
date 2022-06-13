@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const productFormController = require('../../controllers/productFormController');
 const addProductController = require('../../controllers/addProductController');
+const getProductController = require('../../controllers/getProductController');
+const allProductsController = require('../../controllers/allProductsController')
 const Multer = require('multer');
-const path = require('path');
 
 const multer = Multer({
     storage: Multer.memoryStorage(),
@@ -12,8 +13,10 @@ const multer = Multer({
     }
 })
 
+router.get('/all', allProductsController.getAllProducts);
 router.get('/add', productFormController.getProductForm);
 router.post('/add', multer.array('item_image', 3), addProductController.addProduct);
+router.get('/:id', getProductController.getProduct);
 // router.post('/add', authController.handleLogin);
 
 module.exports = router;
