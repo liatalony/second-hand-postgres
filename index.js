@@ -1,16 +1,16 @@
-require('dotenv').config()
-const express = require('express')
-const cookieParser = require('cookie-parser')
-const sessions = require('express-session')
-const app = express()
-const cors = require('cors')
-const pool = require('./config/DBConn')
-const port = 3001
-const verifyJWT = require('./middleware/verifyJWT')
-const corsOptions = require('./config/corsOptions');
-const credentials = require('./middleware/credentials');
-const ROLES_LIST = require('./config/ROLES_LIST');
-const allowedRole = require('./middleware/verifyRoles');
+require("dotenv").config();
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const sessions = require("express-session");
+const app = express();
+const cors = require("cors");
+const pool = require("./config/DBConn");
+const port = 3001;
+const verifyJWT = require("./middleware/verifyJWT");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleware/credentials");
+const ROLES_LIST = require("./config/ROLES_LIST");
+const allowedRole = require("./middleware/verifyRoles");
 
 app.use(credentials);
 
@@ -22,22 +22,19 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 
-
-
 //USER REGISTRATION
-app.use('/users/register', require('./routes/register'));
+app.use("/users/register", require("./routes/register"));
 
 //USER LOGIN
-app.use('/users/login', require('./routes/auth'));
+app.use("/users/login", require("./routes/auth"));
 
 //REFRESH TOKEN
-app.use('/users/refresh', require('./routes/refresh'));
+app.use("/users/refresh", require("./routes/refresh"));
 
 //USER LOGOUT
-app.use('/users/logout', require('./routes/logout'));
+app.use("/users/logout", require("./routes/logout"));
 
-//All product related routes
-app.use('/products', require('./routes/api/products'));
+app.use("/products", require("./routes/api/products"));
 
 //GET PRODUCT BY ID
 // app.get('/products/:id', async (req, res) => {
@@ -57,16 +54,16 @@ app.use('/products', require('./routes/api/products'));
 app.use(verifyJWT);
 
 //GET ALL USERS
-app.get('/users/get-all', allowedRole(ROLES_LIST.Admin), async (req, res) => {
-  try {
-    const allUsers = await pool.query('SELECT * FROM users')
-    res.json(allUsers.rows)
-    console.log(allUsers.rows)
-  } catch (error) {
-    res.json(error.message)
-    console.error(error.message)
-  }
-})
+app.get("/users/get-all", allowedRole(ROLES_LIST.Admin), async (req, res) => {
+	try {
+		const allUsers = await pool.query("SELECT * FROM users");
+		res.json(allUsers.rows);
+		console.log(allUsers.rows);
+	} catch (error) {
+		res.json(error.message);
+		console.error(error.message);
+	}
+});
 
 //GET ALL PRODUCTS
 // app.get('/products', async (req, res) => {
@@ -106,7 +103,6 @@ app.get('/users/get-all', allowedRole(ROLES_LIST.Admin), async (req, res) => {
 //   }
 // })
 
-
 app.listen(port, () => {
-  console.log(`App running on port ${port}.`)
-})
+	console.log(`App running on port ${port}.`);
+});
