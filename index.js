@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 const pool = require("./config/DBConn");
 const port = 3001;
 const verifyJWT = require("./middleware/verifyJWT");
