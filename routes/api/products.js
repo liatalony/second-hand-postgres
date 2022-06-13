@@ -13,7 +13,8 @@ const multer = Multer({
     }
 })
 
-router.get('/all', allProductsController.getAllProducts);
+router.get('/all/:gender', allProductsController.getAllProducts);
+router.get('/all/:gender/:subcategory', allProductsController.getAllProducts);
 router.get('/add', productFormController.getProductForm);
 router.post('/add', multer.array('item_image', 3), addProductController.addProduct);
 router.get('/:id', getProductController.getProduct);

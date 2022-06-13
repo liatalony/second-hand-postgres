@@ -28,7 +28,6 @@ const uploadFile = (f) => {
     });
 
     blobStream.on("error", (err) => {
-      res.status(500).send({ message: err.message });
       reject(err);
     });
 

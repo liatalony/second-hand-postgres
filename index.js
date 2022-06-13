@@ -36,6 +36,7 @@ app.use('/users/refresh', require('./routes/refresh'));
 //USER LOGOUT
 app.use('/users/logout', require('./routes/logout'));
 
+//All product related routes
 app.use('/products', require('./routes/api/products'));
 
 //GET PRODUCT BY ID
