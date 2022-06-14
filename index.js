@@ -35,7 +35,26 @@ app.use("/users/refresh", require("./routes/refresh"));
 //USER LOGOUT
 app.use("/users/logout", require("./routes/logout"));
 
+<<<<<<< HEAD
 app.use("/products", require("./routes/api/products"));
+=======
+//All product related routes
+app.use('/products', require('./routes/api/products'));
+>>>>>>> master
+
+//GET PRODUCT BY ID
+// app.get('/products/:id', async (req, res) => {
+//   const productId = req.params.id;
+//   try {
+//     const getProduct = await pool.query('SELECT * FROM product WHERE product_id=$1 LIMIT 1', [productId])
+//     if (allProducts.rows.length == 0) {
+//       res.status(404).json({'message': 'Something went wrong. no such product'})
+//     }
+//     res.status(200).json(allProducts.rows)
+//   } catch (error) {
+//     res.json(error)
+//   }
+// })
 
 //All routes past this line will require a token check
 app.use(verifyJWT);
