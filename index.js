@@ -4,7 +4,6 @@ const cookieParser = require("cookie-parser");
 const sessions = require("express-session");
 const app = express();
 const cors = require("cors");
-const path = require("path");
 const pool = require("./config/DBConn");
 const port = 3001;
 const verifyJWT = require("./middleware/verifyJWT");
@@ -35,12 +34,8 @@ app.use("/users/refresh", require("./routes/refresh"));
 //USER LOGOUT
 app.use("/users/logout", require("./routes/logout"));
 
-<<<<<<< HEAD
-app.use("/products", require("./routes/api/products"));
-=======
 //All product related routes
-app.use('/products', require('./routes/api/products'));
->>>>>>> master
+app.use("/products", require("./routes/api/products"));
 
 //GET PRODUCT BY ID
 // app.get('/products/:id', async (req, res) => {
