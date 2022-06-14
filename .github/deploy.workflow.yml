@@ -1,0 +1,26 @@
+name: Backend Deploy Workflow - deploy to server
+
+on:
+  push:
+    branches:
+      - deploy
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: copy files via SCP
+        uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          user: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.SSHKEY }}
+          local: "."
+          remote: "./backend-test"
+          pre_upload: rm -rf ./backend-test && mkdir ./backend-test
+          post_upload: cd ./backend-test & ls && npm install
+          ssh_options: -o StrictHostKeyChecking=no
+          scp_options: -v
