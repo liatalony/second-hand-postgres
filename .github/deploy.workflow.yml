@@ -3,7 +3,7 @@ name: Backend Deploy Workflow - deploy to server
 on:
   push:
     branches:
-      - deploy
+      - deploy-test
 
 jobs:
   deploy:
