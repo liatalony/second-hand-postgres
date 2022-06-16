@@ -6,9 +6,9 @@ const getAllProducts = async (req, res) => {
       try {
         let allProducts;
         if (!subcategory) {
-          allProducts = await pool.query('SELECT p.product_id, p.product_headline, p.product_price, img.image_name FROM product p JOIN image img ON img.product_id = p.product_id WHERE img.is_main = true and gender=(SELECT gender_id FROM gender where gender_name=$1)',[gender])
+          allProducts = await pool.query('SELECT p.product_id, p.product_headline, p.product_price, img.image_name FROM product p JOIN image img ON img.product_id = p.product_id WHERE img.is_main = true and gender=(SELECT gender_id FROM gender where gender_name=$1) AND p.status=$2',[gender, 'active'])
         }else if(gender && subcategory){
-          allProducts = await pool.query('SELECT p.product_id, p.product_headline, p.product_price, img.image_name FROM product p JOIN image img ON img.product_id = p.product_id WHERE img.is_main = true AND gender=(SELECT gender_id FROM gender where gender_name=$1) AND product_type=$2',[gender, subcategory])
+          allProducts = await pool.query('SELECT p.product_id, p.product_headline, p.product_price, img.image_name FROM product p JOIN image img ON img.product_id = p.product_id WHERE img.is_main = true AND gender=(SELECT gender_id FROM gender where gender_name=$1) AND product_type=$2 AND p.status=$3',[gender, subcategory, 'active'])
         }
         if (allProducts.rows.length == 0) {
           return res.status(204)

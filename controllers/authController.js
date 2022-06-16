@@ -16,31 +16,31 @@ const handleLogin = async (req, res) => {
   
           const accessToken = jwt.sign(
             {
-              "UserInfo": {
-                "user_email": user_email,
-                "user_role": role
+              UserInfo: {
+                user_email: checkUser.rows[0].user_email,
+                user_role: role
               }
             },
           process.env.ACCESS_TOKEN_SECRET,
-          {expiresIn: '30s'});
+          {expiresIn: '10s'});
 
   
           const refreshToken = jwt.sign(
             {
-              "UserInfo": {
-                "user_email": user_email,
-                "user_role": role
+              UserInfo: {
+                user_email: checkUser.rows[0].user_email,
+                user_role: role
               }
             },
           process.env.REFRESH_TOKEN_SECRET,
-          {expiresIn: '1d'});
+          {expiresIn: '20s'});
 
           try {
             const addToken = await pool.query('UPDATE users SET refresh_token=$1 WHERE user_id=$2 RETURNING *', [refreshToken, checkUser.rows[0].user_id])
             console.log(refreshToken);
             console.log(addToken.rows);
               res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
-              res.json({accessToken, role});
+              res.json({accessToken, role, user_email});
 
           } catch (error) {
               res.json(error.message);
