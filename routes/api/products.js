@@ -3,7 +3,11 @@ const router = express.Router();
 const productFormController = require('../../controllers/productFormController');
 const addProductController = require('../../controllers/addProductController');
 const getProductController = require('../../controllers/getProductController');
-const allProductsController = require('../../controllers/allProductsController')
+const allProductsController = require('../../controllers/allProductsController');
+const getFavouritesController = require('../../controllers/getFavouritesController');
+const getNewProductsController = require('../../controllers/getNewProductsController');
+const adminAllProductsController = require('../../controllers/adminAllProducts');
+const getCartController = require('../../controllers/getCartController');
 const Multer = require('multer');
 
 const multer = Multer({
@@ -13,12 +17,15 @@ const multer = Multer({
     }
 })
 
-router.get('/all/:gender', allProductsController.getAllProducts);
-router.get('/all/:gender/:subcategory', allProductsController.getAllProducts);
+router.get('/shop/', getNewProductsController.getNewProducts);
+router.get('/shop/:gender', allProductsController.getAllProducts);
+router.get('/shop/:gender/:subcategory', allProductsController.getAllProducts);
+router.get('/saved/favourites', getFavouritesController.getAllFavourites);
+router.get('/saved/cart', getCartController.getAllCart);
 router.get('/add', productFormController.getProductForm);
+router.get('/single-product/:id', getProductController.getProduct);
+router.get('/dashboard/all-items/:status', adminAllProductsController.getAdminAll);
 router.post('/add', multer.array('item_image', 3), addProductController.addProduct);
-router.get('/:id', getProductController.getProduct);
-// router.post('/add', authController.handleLogin);
 
 module.exports = router;
 

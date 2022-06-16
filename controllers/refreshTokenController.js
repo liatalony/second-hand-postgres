@@ -9,29 +9,30 @@ const handleRefreshToken = async (req, res) => {
 
     try {
       const checkUser = await pool.query('SELECT * FROM users WHERE refresh_token=$1 LIMIT 1', [refreshToken])
-        console.log('CHECK USER...', checkUser.rows);
+        console.log('CHECK USER...', checkUser.rows.length);
       if(!checkUser.rows.length > 0) return res.sendStatus(403); //Forbidden
-
       jwt.verify(
           refreshToken,
           process.env.REFRESH_TOKEN_SECRET,
           (err, decoded) => {
-              if (err || checkUser.rows[0].user_email !== decoded.user_email) return res.sendStatus(403);
+              if (err || checkUser.rows[0].user_email !== decoded.UserInfo.user_email) return res.sendStatus(403);
               const accessToken = jwt.sign(
                 {
                     "UserInfo": {
-                        "user_email": decoded.user_email,
-                        "user_role": decoded.user_role
+                        user_email: decoded.user_email,
+                        user_role: decoded.user_role
                     }  
                 },
                     process.env.ACCESS_TOKEN_SECRET,
-                  {expiresIn: '30s'}
+                  {expiresIn: '10s'}
               );
-              res.json({accessToken});
+              res.json({accessToken, role});
           }
           )
 
     } catch (error) {
+      console.log('inside error');
+      console.log(error.message);
       res.json(error.message)
     }
 }
