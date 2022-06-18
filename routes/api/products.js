@@ -8,6 +8,9 @@ const getFavouritesController = require('../../controllers/getFavouritesControll
 const getNewProductsController = require('../../controllers/getNewProductsController');
 const adminAllProductsController = require('../../controllers/adminAllProducts');
 const getCartController = require('../../controllers/getCartController');
+const reservationIdController = require('../../controllers/reservationIdController');
+const makeReservationController = require('../../controllers/makeReservarionController');
+const updateReservation = require('../../controllers/updateReservations');
 const Multer = require('multer');
 
 const multer = Multer({
@@ -22,10 +25,13 @@ router.get('/shop/:gender', allProductsController.getAllProducts);
 router.get('/shop/:gender/:subcategory', allProductsController.getAllProducts);
 router.get('/saved/favourites', getFavouritesController.getAllFavourites);
 router.get('/saved/cart', getCartController.getAllCart);
+router.get('/saved/cart/get-id', reservationIdController.reservationId);
 router.get('/add', productFormController.getProductForm);
 router.get('/single-product/:id', getProductController.getProduct);
 router.get('/dashboard/all-items/:status', adminAllProductsController.getAdminAll);
+router.get('/update', updateReservation.updateReservation);
 router.post('/add', multer.array('item_image', 3), addProductController.addProduct);
+router.post('/saved/cart/reserve', makeReservationController.makeReservation);
 
 module.exports = router;
 
