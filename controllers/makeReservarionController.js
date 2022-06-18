@@ -2,7 +2,6 @@ const pool = require('../config/DBConn');
 
 const makeReservation = async (req, res) => {
     const {items, reservation_id, user_email} = req.body;
-    console.log(reservation_id);
     let reserved_items=[];
     let reserved_products=[];
     if (!items || !reservation_id || !user_email) {
@@ -21,10 +20,9 @@ const makeReservation = async (req, res) => {
                     try {
                         for (let index = 0; index < items.length; index++) {
                         setTimeout(async ()=>{
-                            const reserving = await pool.query('INSERT INTO reservation (reservation_id, user_email, product_id) VALUES ($1, $2, $3)', [reservation_id[0].res_id, user_email, items[index]])
+                            const reserving = await pool.query("INSERT INTO reservation (reservation_id, user_email, product_id, reserved_until) VALUES ($1, $2, $3, CURRENT_TIMESTAMP + INTERVAL '1 day')", [reservation_id[0].res_id, user_email, items[index]])
                             if (reserving.rows.length > 0) {
                                 reserved_products.push(reserving.rows);
-                                console.log(reserved_products);
                               }
                         }, 100)
                     }
