@@ -52,6 +52,7 @@ const addProduct = async (req, res, next) => {
 	const urlList = [];
 	console.log(req.files);
 	const {
+		user_id,
 		item_name,
 		item_desc,
 		item_gender,
@@ -63,6 +64,7 @@ const addProduct = async (req, res, next) => {
 		item_price,
 	} = req.body;
 	if (
+		!user_id ||
 		!item_name ||
 		!item_desc ||
 		!item_gender ||
@@ -93,7 +95,7 @@ const addProduct = async (req, res, next) => {
 		addItem = await pool.query(
 			"INSERT INTO product (user_id, product_headline, product_description, product_price, product_size, product_size_id, product_condition, product_colour, product_category, gender, product_type, is_reserved, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *",
 			[
-				1,
+				user_id,
 				item_name,
 				item_desc,
 				item_price,

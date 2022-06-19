@@ -13,6 +13,7 @@ const handleLogin = async (req, res) => {
         if (checkUser.rows[0].user_password == user_pass) {
 
           const role = checkUser.rows[0].user_role;
+          const id = checkUser.rows[0].user_id;
   
           const accessToken = jwt.sign(
             {
@@ -40,7 +41,7 @@ const handleLogin = async (req, res) => {
             console.log(refreshToken);
             console.log(addToken.rows);
               res.cookie('jwt', refreshToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
-              res.json({accessToken, role, user_email});
+              res.json({accessToken, role, user_email, id});
 
           } catch (error) {
               res.json(error.message);
