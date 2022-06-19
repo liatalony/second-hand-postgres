@@ -1,4 +1,5 @@
 const pool = require('../config/DBConn');
+const bcrypt = require('bcrypt');
 
 
 const handleNewUser = async (req, res) => {
@@ -14,7 +15,8 @@ const handleNewUser = async (req, res) => {
       return
     }
     try {
-      const addUser = await pool.query('INSERT INTO users (user_first_name, user_last_name, user_email, user_password, user_phone, user_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [ user_first_name, user_last_name, user_email, user_pass, user_phone, 1])
+      const hashed = await bcrypt.hash(user_pass, 10);
+      const addUser = await pool.query('INSERT INTO users (user_first_name, user_last_name, user_email, user_password, user_phone, user_role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [ user_first_name, user_last_name, user_email, hashed, user_phone, 1])
       res.status(201).json(addUser.rows)
     } catch (error) {
       res.json(error.message)

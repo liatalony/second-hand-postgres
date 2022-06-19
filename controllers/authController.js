@@ -1,5 +1,6 @@
 const pool = require('../config/DBConn');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const handleLogin = async (req, res) => {
@@ -10,7 +11,8 @@ const handleLogin = async (req, res) => {
       if (checkUser.rows.length > 0) {
         // console.log(checkUser.rows)
         // res.status(200).json(checkUser.rows[0].user_password)
-        if (checkUser.rows[0].user_password == user_pass) {
+        const match =  await bcrypt.compare(user_pass, checkUser.rows[0].user_password);
+        if (match) {
 
           const role = checkUser.rows[0].user_role;
           const id = checkUser.rows[0].user_id;

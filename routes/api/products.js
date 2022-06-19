@@ -17,7 +17,6 @@ const approveReservationController = require('../../controllers/approveReservati
 const getUserProductsController = require('../../controllers/getUserProductsController');
 const getSimilarProductsController = require('../../controllers/getSimilarProductsController');
 const approveProductController = require('../../controllers/approveProductController');
-
 const Multer = require('multer');
 
 const multer = Multer({
@@ -45,6 +44,7 @@ router.get('/reservations/:id', reservationDetailsController.reservationDetails)
 router.get('/reservations/:id/:status', approveReservationController.approveReservation);
 router.post('/add', multer.array('item_image', 3), addProductController.addProduct);
 router.post('/saved/cart/reserve', makeReservationController.makeReservation);
+
 
 module.exports = router;
 
