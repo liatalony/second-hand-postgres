@@ -16,6 +16,7 @@ const reservationDetailsController = require('../../controllers/reservationDetai
 const approveReservationController = require('../../controllers/approveReservationController');
 const getUserProductsController = require('../../controllers/getUserProductsController');
 const getSimilarProductsController = require('../../controllers/getSimilarProductsController');
+const approveProductController = require('../../controllers/approveProductController');
 
 const Multer = require('multer');
 
@@ -37,6 +38,7 @@ router.get('/single-product/:id', getProductController.getProduct);
 router.get('/single-product/:id/similar', getSimilarProductsController.getSimilarProducts);
 router.get('/dashboard/all-items/:status', adminAllProductsController.getAdminAll);
 router.get('/dashboard/user-items/:id', getUserProductsController.getUserProducts);
+router.get('/dashboard/items/approve/:id', approveProductController.approveProduct);
 router.get('/update', updateReservation.updateReservation);
 router.get('/reservations', getReservationsController.getReservations);
 router.get('/reservations/:id', reservationDetailsController.reservationDetails);
