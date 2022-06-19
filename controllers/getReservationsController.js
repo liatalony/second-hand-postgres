@@ -3,7 +3,7 @@ const pool = require('../config/DBConn');
 const getReservations = async (req, res) => {
     console.log('reservations');
       try {
-         const allReservations = await pool.query('select reservation_id, status, user_email from reservation group by reservation_id, status, user_email ORDER BY status ASC, reservation_id DESC');
+         const allReservations = await pool.query('select reservation_id, status, user_email from reservation group by reservation_id, status, user_email ORDER BY status DESC, reservation_id DESC');
 
         if (allReservations.rows.length == 0) {
           return res.status(204).send('Something')
