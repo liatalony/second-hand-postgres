@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
               }
             },
           process.env.ACCESS_TOKEN_SECRET,
-          {expiresIn: '10s'});
+          {expiresIn: '5m'});
 
   
           const refreshToken = jwt.sign(
@@ -36,7 +36,7 @@ const handleLogin = async (req, res) => {
               }
             },
           process.env.REFRESH_TOKEN_SECRET,
-          {expiresIn: '20s'});
+          {expiresIn: '1d'});
 
           try {
             const addToken = await pool.query('UPDATE users SET refresh_token=$1 WHERE user_id=$2 RETURNING *', [refreshToken, checkUser.rows[0].user_id])
